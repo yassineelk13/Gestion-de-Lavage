@@ -12,7 +12,7 @@
     
     <hr>
 	
-        <form action="update?id=<%= employe.getId() %>" method="POST">   
+        <form action="updateEmploye?id=<%= employe.getId() %>" method="POST">   
         <div class="form-group">
             <label for="fname">Full Name:</label>
             <input type="text" class="form-control" id="fname" name="fname" value="<%= employe.getFullName() %>" required>
@@ -37,7 +37,7 @@
     
     <hr>
 	
-        <form action="insert" method="POST">   
+        <form action="insertEmploye" method="POST">   
         <div class="form-group">
             <label for="fname">Full Name:</label>
             <input type="text" class="form-control" id="fname" name="fname" required>

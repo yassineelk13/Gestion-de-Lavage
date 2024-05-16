@@ -121,17 +121,17 @@
             <div class="list-group list-group-flush my-3">
                 <a href="<%=request.getContextPath()%>/" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                         class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                <a href="addClient.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                <a href="<%=request.getContextPath()%>/newClient" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-project-diagram me-2"></i>Add Clients</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                <a href="<%=request.getContextPath()%>/listClient" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-chart-line me-2"></i>list clients</a>
-         		<a href="<%=request.getContextPath()%>/new" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+         		<a href="<%=request.getContextPath()%>/newEmploye" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-project-diagram me-2"></i>Add Employes</a>
-                <a href="<%=request.getContextPath()%>/list" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                <a href="<%=request.getContextPath()%>/listEmploye" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-chart-line me-2"></i>list Employes</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                <a href="<%=request.getContextPath()%>/newBooking" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-project-diagram me-2"></i>Booking</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                <a href="<%=request.getContextPath()%>/listBooking" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-chart-line me-2"></i>list Booking</a>
          
                 <!-- <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i

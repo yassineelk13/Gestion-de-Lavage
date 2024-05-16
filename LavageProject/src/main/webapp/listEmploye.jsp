@@ -7,7 +7,7 @@
     <br><br><br><br>
     
     <div class="d-flex justify-content-between mb-3">
-      <a href="<%=request.getContextPath()%>/new" class="btn btn-primary" id="addEmployeeButton">Create Employee</a>
+      <a href="<%=request.getContextPath()%>/newEmploye" class="btn btn-primary" id="addEmployeeButton">Create Employee</a>
     </div>
 
     <table class="table table-striped table-hover">
@@ -35,10 +35,10 @@
           <td><%= employee.getPassword() %></td>
           <td><%= employee.getSalary() %></td>
           <td>
-            <a href="<%=request.getContextPath()%>/edit?id=<%= employee.getId() %>" class="btn btn-warning" id="updateEmployeeButton">Update Employee</a>
+            <a href="<%=request.getContextPath()%>/editEmploye?id=<%= employee.getId() %>" class="btn btn-warning" id="updateEmployeeButton">Update Employee</a>
           </td>
           <td>
-            <a href="<%=request.getContextPath()%>/delete?id=<%= employee.getId() %>" class="btn btn-danger" id="deleteEmployeeButton">Delete Employee</a>
+            <a href="<%=request.getContextPath()%>/deleteEmploye?id=<%= employee.getId() %>" class="btn btn-danger" id="deleteEmployeeButton">Delete Employee</a>
           </td>
         </tr>
         <% 

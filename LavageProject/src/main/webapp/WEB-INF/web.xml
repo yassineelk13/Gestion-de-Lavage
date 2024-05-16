@@ -3,8 +3,10 @@
   <display-name>LavageProject</display-name>
   <welcome-file-list>
     <welcome-file>Dashboard.jsp</welcome-file>
-     <welcome-file>listEmploye.jsp</welcome-file>
-      <welcome-file>addEmploye.jsp</welcome-file>
+    <welcome-file>listEmploye.jsp</welcome-file>
+    <welcome-file>addEmploye.jsp</welcome-file>
+    <welcome-file>listBooking.jsp</welcome-file>
+    <welcome-file>addBooking.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
     <servlet-name>s1</servlet-name>
@@ -14,6 +16,4 @@
     <servlet-name>s1</servlet-name>
     <url-pattern>/Employeservlet</url-pattern>
   </servlet-mapping>
-  
-  
 </web-app>
