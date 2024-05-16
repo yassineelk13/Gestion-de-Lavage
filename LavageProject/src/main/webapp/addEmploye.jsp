@@ -1,10 +1,43 @@
 
 <jsp:include page="sidebar1.jsp"/>
- 
+<%@ page import="app.models.Employe" %>
+
 <div class="container mt-5">
-    <h2>Add Employee</h2>
+<% 
+        Employe employe = (Employe) request.getAttribute("employe");
+        if(employe != null) {
+         
+       %>
+        <h2>modify Employe :  </h2>
+    
     <hr>
-    <form action="" method="POST">
+	
+        <form action="update?id=<%= employe.getId() %>" method="POST">   
+        <div class="form-group">
+            <label for="fname">Full Name:</label>
+            <input type="text" class="form-control" id="fname" name="fname" value="<%= employe.getFullName() %>" required>
+        </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" value="<%= employe.getUsername() %>" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" value="<%=employe.getPassword() %>" required>
+        </div>
+        <div class="form-group">
+            <label for="salary">Salary:</label>
+            <input type="text" class="form-control" id="salary" name="salary" value="<%=employe.getSalary()%>" >
+        </div>
+           
+         <button type="submit" class="btn btn-primary">modify</button>    
+    </form>
+    <%}else{%>  
+            <h2>Add Employe :  </h2>
+    
+    <hr>
+	
+        <form action="insert" method="POST">   
         <div class="form-group">
             <label for="fname">Full Name:</label>
             <input type="text" class="form-control" id="fname" name="fname" required>
@@ -19,10 +52,12 @@
         </div>
         <div class="form-group">
             <label for="salary">Salary:</label>
-            <input type="text" class="form-control" id="salary" name="salary">
+            <input type="text" class="form-control" id="salary" name="salary" >
         </div>
-        <button type="submit" class="btn btn-primary">Add</button>
+           
+         <button type="submit" class="btn btn-primary">Add</button>    
     </form>
+    <%}%> 
 </div>
 
   <script>
