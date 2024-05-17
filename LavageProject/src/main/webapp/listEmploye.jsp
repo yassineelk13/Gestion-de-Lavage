@@ -1,7 +1,14 @@
 <jsp:include page="sidebar1.jsp"/>
 <%@ page import="app.models.Employe" %>
 <%@ page import="java.util.List" %>
-
+<%@page import="jakarta.servlet.http.HttpSession"%>
+<%
+    HttpSession sessionss = request.getSession(false);
+    if (sessionss == null || sessionss.getAttribute("username") == null) {
+        response.sendRedirect("login");
+        return;
+}
+%>
 <div class="container mt-3">
     <h1 class="display-4 text-center">List Employees</h1>
     <br><br><br><br>

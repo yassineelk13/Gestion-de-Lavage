@@ -1,12 +1,19 @@
 <jsp:include page="sidebar1.jsp"/>
 <%@ page import="app.models.Client" %>
-
+<%@page import="jakarta.servlet.http.HttpSession"%>
+<%
+    HttpSession sessionss = request.getSession(false);
+    if (sessionss == null || sessionss.getAttribute("username") == null) {
+        response.sendRedirect("login");
+        return;
+}
+%>
 <div class="container mt-5">
     <% 
         Client client = (Client) request.getAttribute("client");
         if(client != null) {
     %>
-    <h2>Modify Client:</h2>
+    <h1 class="display-4 text-center">modify client :</h1>
     <hr>
     <form action="updateClient?id=<%= client.getId() %>" method="POST">   
         <div class="form-group">
@@ -32,7 +39,9 @@
         <button type="submit" class="btn btn-primary">Modify</button>    
     </form>
     <% } else { %>
-    <h2>Add Client</h2>
+    <h1 class="display-4 text-center">Add Client :</h1>
+    <hr>
+    <br>
     <form action="insertClient" method="post">
         <div class="mb-3">
             <label for="prenom" class="form-label">First Name</label>

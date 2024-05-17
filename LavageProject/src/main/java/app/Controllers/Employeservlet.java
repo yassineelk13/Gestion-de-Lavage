@@ -5,8 +5,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,9 +22,11 @@ import jakarta.servlet.RequestDispatcher;
 import app.Dao.BookingDb;
 import app.Dao.ClientDb;
 import app.Dao.EmployeDb;
+import app.Dao.servicesDAO;
 import app.models.Booking;
 import app.models.Employe;
 import app.models.Client;
+import app.models.services;
 
 
 
@@ -28,12 +36,14 @@ public class Employeservlet extends HttpServlet {
 	private EmployeDb employeDAO;
     private BookingDb bookingDAO;
     private ClientDb clientDB;
+    private servicesDAO serviceDAO;
 
 
 	public void init() {
 		employeDAO = new EmployeDb();
 		bookingDAO = new BookingDb();
 		clientDB = new ClientDb();
+		 serviceDAO = new servicesDAO();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,6 +57,18 @@ public class Employeservlet extends HttpServlet {
 
 		try {
 			switch (action) {
+			case "/logout":
+				logout(request, response);
+				break;
+			case "/dashboard":
+				dashboard(request, response);
+				break;
+			case "/loginn":
+				login(request, response);
+				break;
+			case "/login":
+				showlogin(request, response);
+				break;
 			case "/newEmploye":
 				showNewForm(request, response);
 				break;
@@ -98,6 +120,24 @@ public class Employeservlet extends HttpServlet {
 			case "/listClient":
 				listclient(request, response);
 				break;
+			case "/newService":
+                showNewFormService(request, response);
+                break;
+            case "/insertService":
+                insertService(request, response);
+                break;
+            case "/deleteService":
+                deleteService(request, response);
+                break;
+            case "/editService":
+                showEditFormService(request, response);
+                break;
+            case "/updateService":
+                updateService(request, response);
+                break;
+            case "/listService":
+                listService(request, response);
+                break;	
 	
 			default:
 				listEmploye(request, response);
@@ -107,6 +147,12 @@ public class Employeservlet extends HttpServlet {
 			throw new ServletException(ex);
 		}
 	}
+	
+	 private void dashboard(HttpServletRequest request, HttpServletResponse response)
+	            throws SQLException, IOException, ServletException {
+	        
+	        request.getRequestDispatcher("Dashboard.jsp").forward(request, response);
+	    }
 
 	private void listEmploye(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
@@ -179,6 +225,8 @@ public class Employeservlet extends HttpServlet {
 
 	private void showNewFormbooking(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		List<services> listservices = serviceDAO.selectAllServices();
+		request.setAttribute("listService", listservices);
 		List<Employe> listemploye = employeDAO.selectAllEmployes();
 		request.setAttribute("listEmploye", listemploye);
 		List<Client> listClient = clientDB.selectAllclients();
@@ -189,6 +237,8 @@ public class Employeservlet extends HttpServlet {
 
 	private void showEditFormbooking(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
+		List<services> listservices = serviceDAO.selectAllServices();
+		request.setAttribute("listService", listservices);
 		List<Employe> listemploye = employeDAO.selectAllEmployes();
 		request.setAttribute("listEmploye", listemploye);
 		List<Client> listClient = clientDB.selectAllclients();
@@ -206,6 +256,7 @@ public class Employeservlet extends HttpServlet {
 
 	    int clientId = Integer.parseInt(request.getParameter("clientId"));
 	    int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+	    int serviceId = Integer.parseInt(request.getParameter("serviceId"));
 	    String bookingDateString = request.getParameter("bookingDate");
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         
@@ -219,9 +270,9 @@ public class Employeservlet extends HttpServlet {
 	    }
 
 	    String description = request.getParameter("description");
-	    double price = Double.parseDouble(request.getParameter("price"));
+	    double price = 1.1;
 
-	    Booking newBooking = new Booking(clientId, employeeId, bookingDate, description, price);
+	    Booking newBooking = new Booking(clientId, employeeId, bookingDate, description, price,serviceId);
 	    bookingDAO.insertBooking(newBooking);
 	    response.sendRedirect("listBooking");
 	}
@@ -232,6 +283,7 @@ public class Employeservlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		int clientId = Integer.parseInt(request.getParameter("clientId"));
 	    int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+	    int serviceId = Integer.parseInt(request.getParameter("serviceId"));
 	    String bookingDateString = request.getParameter("bookingDate");
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         
@@ -245,10 +297,10 @@ public class Employeservlet extends HttpServlet {
 	    }
 	    
 		    String description = request.getParameter("description");
-		    double price = Double.parseDouble(request.getParameter("price"));
+		    double price = 1.1;
 		    String statut = request.getParameter("statut");
 
-		    Booking newBooking = new Booking(id,clientId, employeeId, bookingDate, description, price,statut,"","");
+		    Booking newBooking = new Booking(id,clientId, employeeId, bookingDate, description, price,statut,serviceId,"","","");
 		bookingDAO.updateBooking(newBooking);
 		response.sendRedirect("listBooking");
 	}
@@ -327,4 +379,125 @@ public class Employeservlet extends HttpServlet {
 	}
 	
 	
+	/////////////////////////////////////////Services/////////////////////////////////////////////////////
+	
+	
+    private void listService(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        List<services> listService = serviceDAO.selectAllServices();
+        request.setAttribute("listService", listService);
+        request.getRequestDispatcher("service-liste.jsp").forward(request, response);
+    }
+
+    private void showNewFormService(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setAttribute("service", new services());
+        request.getRequestDispatcher("services.jsp").forward(request, response);
+    }
+
+    private void showEditFormService(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        services existingService = serviceDAO.selectService(id);
+        request.setAttribute("service", existingService);
+        request.getRequestDispatcher("services.jsp").forward(request, response);
+    }
+
+    private void insertService(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException {
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        double price = Double.parseDouble(request.getParameter("price"));
+        services newService = new services(0, name, description, price);
+        serviceDAO.insertService(newService);
+        response.sendRedirect("listService");
+    }
+
+    private void updateService(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        double price = Double.parseDouble(request.getParameter("price"));
+        services service = new services(id, name, description, price);
+        serviceDAO.updateService(service);
+        response.sendRedirect("listService");
+    }
+
+    private void deleteService(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        serviceDAO.deleteService(id);
+        response.sendRedirect("listService");
+    }
+	
+   ////////////////////////////////////////////////////////////////////////////////////////////
+    
+    private void showlogin(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+    }
+    private void logout(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+    	HttpSession sessions = request.getSession(false);
+    	sessions.invalidate(); 
+    	response.sendRedirect("login");
+    }
+    
+    private void login(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            response.sendRedirect("login?emptyFields=1");
+            return;
+        }
+
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            // Load MySQL JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            // Connect to the database
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/jaava_db", "root", "");
+
+            // Prepare SQL statement to check user credentials
+            String sql = "SELECT * FROM user WHERE full_name = ? AND password = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            rs = stmt.executeQuery();
+
+            // Check if user exists
+            if (rs.next()) {
+                // Authentication successful, create session and redirect to dashboard.jsp
+                HttpSession session = request.getSession();
+                session.setAttribute("username", username);
+                response.sendRedirect("dashboard");
+            } else {
+                // Authentication failed, redirect back to login page with an error message
+                response.sendRedirect("login?error=1");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            // Handle database connection errors or SQL exceptions
+            response.sendRedirect("error.jsp");
+        } finally {
+            // Close resources
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+    }
 }

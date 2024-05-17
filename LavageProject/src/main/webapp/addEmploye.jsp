@@ -1,14 +1,22 @@
 
 <jsp:include page="sidebar1.jsp"/>
 <%@ page import="app.models.Employe" %>
-
+<%@page import="jakarta.servlet.http.HttpSession"%>
+<%
+    HttpSession sessionss = request.getSession(false);
+    if (sessionss == null || sessionss.getAttribute("username") == null) {
+        response.sendRedirect("login");
+        return;
+}
+%>
 <div class="container mt-5">
 <% 
         Employe employe = (Employe) request.getAttribute("employe");
         if(employe != null) {
          
        %>
-        <h2>modify Employe :  </h2>
+        <h1 class="display-4 text-center">Modify Employee :</h1>
+    <br><br><br><br>
     
     <hr>
 	
@@ -33,7 +41,8 @@
          <button type="submit" class="btn btn-primary">modify</button>    
     </form>
     <%}else{%>  
-            <h2>Add Employe :  </h2>
+            <h1 class="display-4 text-center">Add Employee :</h1>
+    <br><br><br><br>
     
     <hr>
 	
