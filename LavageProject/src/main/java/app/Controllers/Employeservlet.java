@@ -138,9 +138,15 @@ public class Employeservlet extends HttpServlet {
             case "/listService":
                 listService(request, response);
                 break;	
+            case "/listEmploye":
+            	listEmploye(request, response);
+                break;	
+            case "/research_car":
+            	research_car(request, response);
+                break;	    
 	
 			default:
-				listEmploye(request, response);
+				dashboard(request, response);
 				break;
 			}
 		} catch (SQLException ex) {
@@ -148,6 +154,12 @@ public class Employeservlet extends HttpServlet {
 		}
 	}
 	
+
+	private void research_car(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        
+        request.getRequestDispatcher("Booking_Statut.jsp").forward(request, response);
+    }
 	 private void dashboard(HttpServletRequest request, HttpServletResponse response)
 	            throws SQLException, IOException, ServletException {
 	        

@@ -23,7 +23,7 @@
           <th scope="col">#</th>
           <th scope="col">Full Name</th>
           <th scope="col">Username</th>
-          <th scope="col">Password</th>
+          <th scope="col">Address</th>
           <th scope="col">Salary</th>
           <th scope="col"></th>
           <th scope="col"></th>
@@ -45,7 +45,7 @@
             <a href="<%=request.getContextPath()%>/editEmploye?id=<%= employee.getId() %>" class="btn btn-warning" id="updateEmployeeButton">Update Employee</a>
           </td>
           <td>
-            <a href="<%=request.getContextPath()%>/deleteEmploye?id=<%= employee.getId() %>" class="btn btn-danger" id="deleteEmployeeButton">Delete Employee</a>
+            <a href="<%=request.getContextPath()%>/deleteEmploye?id=<%= employee.getId() %>" class="btn btn-danger" id="deleteEmployeeButton" onclick="return confirm('Are you sure you want to delete this employee?');">Delete Employee</a>
           </td>
         </tr>
         <% 

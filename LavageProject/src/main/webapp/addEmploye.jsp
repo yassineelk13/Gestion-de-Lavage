@@ -30,8 +30,8 @@
             <input type="text" class="form-control" id="username" name="username" value="<%= employe.getUsername() %>" required>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" value="<%=employe.getPassword() %>" required>
+            <label for="password">Address:</label>
+            <input type="text" class="form-control" id="password" name="password" value="<%=employe.getPassword() %>" required>
         </div>
         <div class="form-group">
             <label for="salary">Salary:</label>
@@ -56,8 +56,8 @@
             <input type="text" class="form-control" id="username" name="username" required>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" required>
+            <label for="password">Address:</label>
+            <input type="text" class="form-control" id="password" name="password" required>
         </div>
         <div class="form-group">
             <label for="salary">Salary:</label>
